@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zscyun.blog.mapper.ArticleMapper">
+    <insert id="insertArticle" parameterType="com.zscyun.blog.entity.Article">
+        insert into article (title, content, category)
+        values (#{title}, #{content}, #{category})
+    </insert>
+    <select id="listArticle" resultType="com.zscyun.blog.entity.Article">
+        select *
+        from article
+    </select>
+    <select id="getArticlesByCategory" parameterType="String" resultType="com.zscyun.blog.entity.Article">
+        select *
+        from article
+        where category = #{category}
+    </select>
+    <select id="getArticleById" parameterType="int" resultType="com.zscyun.blog.entity.Article">
+        select *
+        from article
+        where id = #{id}
+    </select>
+    <update id="updateArticle" parameterType="com.zscyun.blog.entity.Article">
+        update article
+        set title=#{title},
+            category=#{category},
+            content=#{content}
+        where id = #{id}
+    </update>
+    <delete id="deleteArticle">
+        delete
+        from article
+        where id = #{articleId}
+    </delete>
+</mapper>
