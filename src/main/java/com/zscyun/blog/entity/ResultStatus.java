@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 返回状态
+ */
 public enum ResultStatus {
 
   SUCCESS(200, "success"),

@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 诗句标签获取
+ */
 @CrossOrigin
 @RestController
-@RequestMapping("/shanzs/blog")
+@RequestMapping("/blog")
 public class PoemController {
   @Autowired
   private PoemMapper poemMapper;

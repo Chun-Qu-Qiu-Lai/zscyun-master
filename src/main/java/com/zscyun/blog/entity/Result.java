@@ -4,7 +4,9 @@ package com.zscyun.blog.entity;
 import java.io.Serializable;
 
 /**
- * @author 72431
+ * @author 蛋炒饭不加蛋
+ *
+ *返回集合
  */
 public class Result<T> implements Serializable {
 

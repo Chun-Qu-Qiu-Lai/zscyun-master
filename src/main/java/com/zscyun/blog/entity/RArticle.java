@@ -2,7 +2,11 @@ package com.zscyun.blog.entity;
 
 
 import java.io.Serializable;
-
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ *直接返回
+ */
 
 public class RArticle implements Serializable {
   private Integer id;

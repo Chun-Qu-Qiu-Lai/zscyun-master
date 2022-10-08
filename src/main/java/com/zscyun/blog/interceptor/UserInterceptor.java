@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 用户拦截
- *
  * @author 蛋炒饭不加蛋
+ *
+ *
  */
 @Component
 public class UserInterceptor implements HandlerInterceptor {

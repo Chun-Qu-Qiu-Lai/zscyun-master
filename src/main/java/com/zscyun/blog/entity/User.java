@@ -3,6 +3,12 @@ package com.zscyun.blog.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 用户
+ */
+
 public class User implements Serializable {
   private Integer userId;
   private String username;

@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 管理后台登录
+ */
 @CrossOrigin
 @RestController
-@RequestMapping("/shanzs/blog")
+@RequestMapping("/blog")
 public class LoginController {
   @Autowired
   private UserMapper userMapper;

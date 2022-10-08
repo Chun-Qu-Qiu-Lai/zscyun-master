@@ -2,6 +2,8 @@ package com.zscyun.blog.Exception;
 
 /**
  * @author 蛋炒饭不加蛋
+ *
+ * 异常处理
  */
 public class ServiceException extends RuntimeException {
   public ServiceException() {

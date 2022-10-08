@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 文章
+ */
 public class Article implements Serializable {
   private Integer id;
   private String author;

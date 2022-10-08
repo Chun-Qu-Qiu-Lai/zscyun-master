@@ -8,9 +8,14 @@ import com.zscyun.blog.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 菜单栏获取
+ */
 @CrossOrigin
 @RestController
-@RequestMapping("/shanzs/blog")
+@RequestMapping("/blog")
 public class MenuController {
   @Autowired
   private MenuMapper menuMapper;
@@ -29,13 +34,11 @@ public class MenuController {
       try {
         userId = userMapper.selectUserByUserId(id).getUserId();
       } catch (Exception e) {
-        System.out.println("挖矿1");
         return Result.success(ResultStatus.SUCCESS, menuMapper.selectMenuList());
       }
       if (userId == null) {
         return Result.success(ResultStatus.SUCCESS, menuMapper.selectMenuList());
       } else {
-        System.out.println("挖矿");
         return Result.success(ResultStatus.SUCCESS, menuMapper.selectMenuListByUserId(userId));
       }
     }

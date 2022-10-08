@@ -3,6 +3,11 @@ package com.zscyun.blog.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 诗句
+ */
 public class Poem implements Serializable {
   private Integer id;
   private String title;

@@ -14,11 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @author 72431
+ * @author 蛋炒饭不加蛋
+ *
+ * 文章管理
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/shanzs/blog")
+@RequestMapping("/blog")
 public class ArticleController {
   @Autowired
   private ArticleMapper articleMapper;
@@ -37,7 +39,6 @@ public class ArticleController {
 
   @GetMapping("/get_articles")
   private Result getArticles(@RequestParam(value = "category", required = false) String category) {
-    System.out.println(category);
     List<Article> articles = new ArrayList<>();
     if (category == null) {
       articles = articleMapper.listArticle();
@@ -144,7 +145,6 @@ public class ArticleController {
 
   @PostMapping("/update_article")
   private Result updateArticle(@RequestBody RArticle rArticle) {
-    System.out.println(rArticle.getContent());
     Article article = new Article();
     article.setId(rArticle.getId());
     article.setCategory(rArticle.getCategory());

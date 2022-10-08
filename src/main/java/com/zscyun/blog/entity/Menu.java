@@ -3,6 +3,11 @@ package com.zscyun.blog.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author 蛋炒饭不加蛋
+ *
+ * 菜单
+ */
 public class Menu implements Serializable {
   private Integer menuId;
   private String name;
