@@ -7,16 +7,16 @@
         insert into article (title, content, category)
         values (#{title}, #{content}, #{category})
     </insert>
-    <select id="listArticle" resultType="com.zscyun.blog.entity.Article">
+    <select id="selectListArticle" resultType="com.zscyun.blog.entity.Article">
         select *
         from article
     </select>
-    <select id="getArticlesByCategory" parameterType="String" resultType="com.zscyun.blog.entity.Article">
+    <select id="selectArticlesByCategory" parameterType="String" resultType="com.zscyun.blog.entity.Article">
         select *
         from article
         where category = #{category}
     </select>
-    <select id="getArticleById" parameterType="int" resultType="com.zscyun.blog.entity.Article">
+    <select id="selectArticleById" parameterType="int" resultType="com.zscyun.blog.entity.Article">
         select *
         from article
         where id = #{id}
@@ -33,4 +33,8 @@
         from article
         where id = #{articleId}
     </delete>
+    <select id="selectAcountArticle" resultType="int">
+        select count(*)
+        from article
+    </select>
 </mapper>

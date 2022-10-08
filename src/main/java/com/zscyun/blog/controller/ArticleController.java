@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * @author 蛋炒饭不加蛋
- *
+ * <p>
  * 文章管理
  */
 @CrossOrigin
@@ -41,7 +41,7 @@ public class ArticleController {
   private Result getArticles(@RequestParam(value = "category", required = false) String category) {
     List<Article> articles = new ArrayList<>();
     if (category == null) {
-      articles = articleMapper.listArticle();
+      articles = articleMapper.selectListArticle();
       List<Object> r = new ArrayList<>();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       for (Article article : articles) {
@@ -65,7 +65,7 @@ public class ArticleController {
       }
       return new Result<>(200, "成功", r);
     } else {
-      articles = articleMapper.getArticlesByCategory(category);
+      articles = articleMapper.selectArticlesByCategory(category);
       List<Object> r = new ArrayList<>();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       for (Article article : articles) {
@@ -94,7 +94,7 @@ public class ArticleController {
   @GetMapping("/get_article")
   private Result getArticleByArticleId(@RequestParam("articleId") Integer articleId) {
     Article article = new Article();
-    article = articleMapper.getArticleById(articleId);
+    article = articleMapper.selectArticleById(articleId);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     Map<String, Object> r = new LinkedHashMap<>();
     List<Map> contentPart = new LinkedList<>();
@@ -161,8 +161,14 @@ public class ArticleController {
     if (articleId == null) {
       return Result.fail(ResultStatus.HTTP_STATUS_401);
     }
-    System.out.println(articleMapper.deleteArticle(articleId));
     return Result.success(ResultStatus.SUCCESS);
+  }
+
+  @GetMapping("/article_page")
+  private Result getArticleByArticleId() {
+    Map<String, Object> resultMap = new HashMap<>();
+    resultMap.put("count", articleMapper.selectAcountArticle());
+    return Result.success(ResultStatus.SUCCESS, resultMap);
   }
 }
 
