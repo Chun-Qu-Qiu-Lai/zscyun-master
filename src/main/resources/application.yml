@@ -12,7 +12,10 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   # Mybatis开启驼峰映射
 
-
+dataFormatter:
+  dataFormatterStyleOne: yyyy-MM-dd HH:mm:ss
+  dataFormatterStyleTwo: yyyy/MM/dd
+  dataFormatterStyleThree: yyyy-MM-dd
 
 
 

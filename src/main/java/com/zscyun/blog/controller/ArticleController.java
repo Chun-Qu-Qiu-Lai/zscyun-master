@@ -1,16 +1,22 @@
 package com.zscyun.blog.controller;
 
 
-import com.zscyun.blog.entity.Article;
-import com.zscyun.blog.entity.RArticle;
-import com.zscyun.blog.entity.Result;
-import com.zscyun.blog.entity.ResultStatus;
+import com.zscyun.blog.entity.*;
 import com.zscyun.blog.mapper.ArticleMapper;
+import com.zscyun.blog.mapper.FileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -24,6 +30,12 @@ import java.util.*;
 public class ArticleController {
   @Autowired
   private ArticleMapper articleMapper;
+
+  @Value("${dataFormatter.dataFormatterStyleThree}")
+  private String dataFormatterStyleThree;
+
+  @Autowired
+  private FileMapper fileMapper;
 
   @PostMapping("/create_article")
   private Result createArticle(@RequestParam("articleTitle") String articleTitle,
@@ -69,28 +81,34 @@ public class ArticleController {
       List<Object> resultMap = new ArrayList<>();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       for (Article article : articles) {
-        Map<String, Object> ar = new LinkedHashMap<>();
+        Map<String, Object> r = new HashMap<>();
         String convert = new String(article.getContent(), StandardCharsets.UTF_8);
-        ar.put("id", article.getId());
-        ar.put("author", article.getAuthor());
-        ar.put("title", article.getTitle());
-        ar.put("content", convert);
+        r.put("id", article.getId());
+        r.put("author", article.getAuthor());
+        r.put("title", article.getTitle());
+        r.put("content", convert);
         //代码分行
         List<String> contentList = new ArrayList<>();
         String[] strs = convert.split("\n");
         for (String str : strs) {
           contentList.add(str.toString());
         }
-        ar.put("contentList", contentList);
-        ar.put("category", article.getCategory());
-        ar.put("create_time", sdf.format(article.getCreate_time()));
-        ar.put("update_time", article.getUpdate_time());
-        resultMap.add(ar);
+        r.put("contentList", contentList);
+        r.put("category", article.getCategory());
+        r.put("create_time", sdf.format(article.getCreate_time()));
+        r.put("update_time", article.getUpdate_time());
+        resultMap.add(r);
       }
       return Result.success(ResultStatus.SUCCESS, resultMap);
     }
   }
 
+  /**
+   * 文章详情
+   *
+   * @param articleId
+   * @return
+   */
   @GetMapping("/get_article")
   private Result getArticleByArticleId(@RequestParam("articleId") Integer articleId) {
     Article article = new Article();
@@ -170,6 +188,48 @@ public class ArticleController {
     Map<String, Object> resultMap = new HashMap<>();
     resultMap.put("count", articleMapper.selectAcountArticle());
     return Result.success(ResultStatus.SUCCESS, resultMap);
+  }
+
+  /**
+   * 1.文件保存在服务器，url地址保存在数据库
+   * 上传成功之后返回成功保存的url地址
+   */
+  @PostMapping("/upload")
+  public Result upload(@RequestPart MultipartFile file) throws FileNotFoundException {
+    if (!file.isEmpty()) {
+      String uploadPath = "/www/springbootxm/blogImg";
+      // 如果目录不存在则创建
+      File uploadDir = new File(uploadPath);
+      if (!uploadDir.exists()) {
+        uploadDir.mkdir();
+      }
+      //获取原文件名
+      String OriginalFilename = file.getOriginalFilename();
+      //获取文件后缀名
+      String suffixName = OriginalFilename.substring(OriginalFilename.lastIndexOf("."));
+      //重新随机生成名字
+      Date date = new Date();
+      LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+      String result = localDateTime.format(DateTimeFormatter.ofPattern(dataFormatterStyleThree));
+      String filename = UUID.randomUUID().toString() + "-" + result + suffixName;
+      File localFile = new File(uploadPath + "\\" + filename);
+      try {
+        //把上传的文件保存至本地
+        file.transferTo(localFile);
+        FileUpload fileUpload = new FileUpload();
+        fileUpload.setFileName(filename);
+        fileUpload.setFileUrl("https://www.shanzs.top/blogImg/" + filename);
+        fileMapper.insertFile(fileUpload);
+        return Result.success(ResultStatus.SUCCESS, "https://www.shanzs.top/blogImg/" + filename);
+      } catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("上传失败");
+        return Result.fail(ResultStatus.HTTP_STATUS_412);
+      }
+    } else {
+      System.out.println("文件为空");
+      return Result.fail(ResultStatus.HTTP_STATUS_413);
+    }
   }
 }
 

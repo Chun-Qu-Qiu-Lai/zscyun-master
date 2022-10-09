@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author 蛋炒饭不加蛋
- *
+ * <p>
  * 返回状态
  */
 public enum ResultStatus {
@@ -19,7 +19,9 @@ public enum ResultStatus {
   HTTP_STATUS_403(403, "no authorities"),
   HTTP_STATUS_409(409, "密码为空"),
   HTTP_STATUS_410(410, "账号为空"),
-  HTTP_STATUS_411(411, "查无此人");
+  HTTP_STATUS_411(411, "查无此人"),
+  HTTP_STATUS_412(412, "文件上传失败"),
+  HTTP_STATUS_413(413, "文件为空");
 
 
   public static final List<ResultStatus> HTTP_STATUS_ALL = Collections.unmodifiableList(
@@ -29,7 +31,9 @@ public enum ResultStatus {
                   HTTP_STATUS_403,
                   HTTP_STATUS_409,
                   HTTP_STATUS_410,
-                  HTTP_STATUS_411
+                  HTTP_STATUS_411,
+                  HTTP_STATUS_412,
+                  HTTP_STATUS_413
           ));
 
   /**
