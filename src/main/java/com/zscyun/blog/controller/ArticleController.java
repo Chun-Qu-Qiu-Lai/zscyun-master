@@ -222,12 +222,9 @@ public class ArticleController {
         fileMapper.insertFile(fileUpload);
         return Result.success(ResultStatus.SUCCESS, "https://www.shanzs.top/blogImg/" + filename);
       } catch (IOException e) {
-        e.printStackTrace();
-        System.out.println("上传失败");
         return Result.fail(ResultStatus.HTTP_STATUS_412);
       }
     } else {
-      System.out.println("文件为空");
       return Result.fail(ResultStatus.HTTP_STATUS_413);
     }
   }
