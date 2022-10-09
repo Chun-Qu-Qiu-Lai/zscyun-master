@@ -42,7 +42,7 @@ public class ArticleController {
     List<Article> articles = new ArrayList<>();
     if (category == null) {
       articles = articleMapper.selectListArticle();
-      List<Object> r = new ArrayList<>();
+      List<Object> resultMap = new ArrayList<>();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       for (Article article : articles) {
         Map<String, Object> ar = new LinkedHashMap<>();
@@ -61,12 +61,12 @@ public class ArticleController {
         ar.put("category", article.getCategory());
         ar.put("create_time", sdf.format(article.getCreate_time()));
         ar.put("update_time", article.getUpdate_time());
-        r.add(ar);
+        resultMap.add(ar);
       }
-      return new Result<>(200, "成功", r);
+      return new Result<>(200, "成功", resultMap);
     } else {
       articles = articleMapper.selectArticlesByCategory(category);
-      List<Object> r = new ArrayList<>();
+      List<Object> resultMap = new ArrayList<>();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
       for (Article article : articles) {
         Map<String, Object> ar = new LinkedHashMap<>();
@@ -85,9 +85,9 @@ public class ArticleController {
         ar.put("category", article.getCategory());
         ar.put("create_time", sdf.format(article.getCreate_time()));
         ar.put("update_time", article.getUpdate_time());
-        r.add(ar);
+        resultMap.add(ar);
       }
-      return Result.success(ResultStatus.SUCCESS, r);
+      return Result.success(ResultStatus.SUCCESS, resultMap);
     }
   }
 
@@ -96,13 +96,13 @@ public class ArticleController {
     Article article = new Article();
     article = articleMapper.selectArticleById(articleId);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-    Map<String, Object> r = new LinkedHashMap<>();
+    Map<String, Object> resultMap = new LinkedHashMap<>();
     List<Map> contentPart = new LinkedList<>();
     String convert = new String(article.getContent(), StandardCharsets.UTF_8);
-    r.put("id", article.getId());
-    r.put("author", article.getAuthor());
-    r.put("title", article.getTitle());
-    r.put("content", convert);
+    resultMap.put("id", article.getId());
+    resultMap.put("author", article.getAuthor());
+    resultMap.put("title", article.getTitle());
+    resultMap.put("content", convert);
     List<Object> contentList = new ArrayList<>();
     String[] strOne = convert.split("\n");
     for (String item : strOne) {
@@ -135,12 +135,12 @@ public class ArticleController {
       }
       contentPart.add(part);
     }
-    r.put("contentList", contentList);
-    r.put("contentPart", contentPart);
-    r.put("category", article.getCategory());
-    r.put("create_time", sdf.format(article.getCreate_time()));
-    r.put("update_time", article.getUpdate_time());
-    return Result.success(ResultStatus.SUCCESS, r);
+    resultMap.put("contentList", contentList);
+    resultMap.put("contentPart", contentPart);
+    resultMap.put("category", article.getCategory());
+    resultMap.put("create_time", sdf.format(article.getCreate_time()));
+    resultMap.put("update_time", article.getUpdate_time());
+    return Result.success(ResultStatus.SUCCESS, resultMap);
   }
 
   @PostMapping("/update_article")
@@ -161,6 +161,7 @@ public class ArticleController {
     if (articleId == null) {
       return Result.fail(ResultStatus.HTTP_STATUS_401);
     }
+    articleMapper.deleteArticle(articleId);
     return Result.success(ResultStatus.SUCCESS);
   }
 
