@@ -195,7 +195,7 @@ public class ArticleController {
    * 上传成功之后返回成功保存的url地址
    */
   @PostMapping("/upload")
-  public Result upload(@RequestPart MultipartFile file) throws FileNotFoundException {
+  public Result upload(@RequestParam MultipartFile file) {
     if (!file.isEmpty()) {
       String uploadPath = "/www/springbootxm/blogImg/";
       // 如果目录不存在则创建
@@ -226,6 +226,19 @@ public class ArticleController {
       }
     } else {
       return Result.fail(ResultStatus.HTTP_STATUS_413);
+    }
+  }
+
+  @GetMapping("/delete_file")
+  public Result deleteFile(@RequestParam("0") String fileNameMd) {
+    String fileName = fileNameMd.substring(31);
+    String filePath = "/www/springbootxm/blogImg/" + fileName;
+    File file = new File(filePath);
+    if (file.exists()) {
+      file.delete();
+      return Result.success(ResultStatus.SUCCESS);
+    } else {
+      return Result.fail(ResultStatus.HTTP_STATUS_414);
     }
   }
 }

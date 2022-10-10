@@ -21,7 +21,8 @@ public enum ResultStatus {
   HTTP_STATUS_410(410, "账号为空"),
   HTTP_STATUS_411(411, "查无此人"),
   HTTP_STATUS_412(412, "文件上传失败"),
-  HTTP_STATUS_413(413, "文件为空");
+  HTTP_STATUS_413(413, "文件为空"),
+  HTTP_STATUS_414(413, "删除文件失败");
 
 
   public static final List<ResultStatus> HTTP_STATUS_ALL = Collections.unmodifiableList(
@@ -33,7 +34,8 @@ public enum ResultStatus {
                   HTTP_STATUS_410,
                   HTTP_STATUS_411,
                   HTTP_STATUS_412,
-                  HTTP_STATUS_413
+                  HTTP_STATUS_413,
+                  HTTP_STATUS_414
           ));
 
   /**
