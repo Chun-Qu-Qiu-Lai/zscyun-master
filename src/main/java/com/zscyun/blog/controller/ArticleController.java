@@ -197,7 +197,7 @@ public class ArticleController {
   @PostMapping("/upload")
   public Result upload(@RequestPart MultipartFile file) throws FileNotFoundException {
     if (!file.isEmpty()) {
-      String uploadPath = "/www/springbootxm/blogImg";
+      String uploadPath = "/www/springbootxm/blogImg/";
       // 如果目录不存在则创建
       File uploadDir = new File(uploadPath);
       if (!uploadDir.exists()) {
@@ -212,7 +212,7 @@ public class ArticleController {
       LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
       String result = localDateTime.format(DateTimeFormatter.ofPattern(dataFormatterStyleThree));
       String filename = UUID.randomUUID().toString() + "-" + result + suffixName;
-      File localFile = new File(uploadPath + "\\" + filename);
+      File localFile = new File(uploadPath + filename);
       try {
         //把上传的文件保存至本地
         file.transferTo(localFile);
